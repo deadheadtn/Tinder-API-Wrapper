@@ -3,6 +3,9 @@
 
 The Most recent PHP Tinder API Wrapper on Github.
 
+$h = new tinder("PUT-TINDER-API-HERE");
+
+
 # Available features are:
 - Get Matches ID
 
