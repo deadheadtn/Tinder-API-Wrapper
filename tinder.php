@@ -6,10 +6,10 @@ class Tinder{
 		$this->token = $token;
 	}
 
-  function get_matches(){
+  function get_matches($m){
   $ch = curl_init();
   $list= array();
-  curl_setopt($ch, CURLOPT_URL, 'https://api.gotinder.com/v2/matches?count=60&is_tinder_u=true&locale=fr&message=1');
+  curl_setopt($ch, CURLOPT_URL, 'https://api.gotinder.com/v2/matches?count=60&is_tinder_u=true&locale=fr&message='.$m);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 
@@ -51,6 +51,43 @@ class Tinder{
     $result = curl_exec($ch);
     echo $result."\n ";
     curl_close($ch);
+  }
+
+
+  function swipe($id,$decision){
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, 'https://api.gotinder.com/'.$decision.'/'.$id);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'OPTIONS');
+
+    curl_setopt($ch, CURLOPT_ENCODING, 'gzip, deflate');
+    $headers = array();
+    $headers[] = 'X-Auth-Token: '.$this->token;
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $result = curl_exec($ch);
+
+    curl_close($ch);
+  }
+  function get_new(){
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, 'https://api.gotinder.com/v2/recs/core');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+
+    curl_setopt($ch, CURLOPT_ENCODING, 'gzip, deflate');
+    $headers = array();
+    $headers[] = 'X-Auth-Token: '.$this->token;
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $result = curl_exec($ch);
+    if (curl_errno($ch)) {
+        echo 'Error:' . curl_error($ch);
+    }
+    curl_close($ch);
+    return json_decode($result,true);
   }
 }
 ?>
