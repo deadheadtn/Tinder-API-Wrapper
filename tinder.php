@@ -24,19 +24,14 @@ class Tinder{
   $len=count($result['data']['matches']);
   //echo $len;
   for($i=0;$i<$len;$i++){
-    //echo "Message Count: ".$result['data']['matches'][$i]['message_count']." Name: ".$result['data']['matches'][$i]['person']['name']." Common Friends: ".$result['data']['matches'][$i]['common_friend_count']."\n";
    array_push($list,$result['data']['matches'][$i]['_id']);
   }
-  /*foreach($result['data']['matches'] as $ma ){
-    var_dump($ma['dead']);
-  }*/
   curl_close($ch);
   return $list;
   }
 
   function send_Message($id,$message){
     $ch = curl_init();
-
     curl_setopt($ch, CURLOPT_URL, 'https://api.gotinder.com/user/matches/'.$id);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, '{"message":"'.$message.'"}');
@@ -83,9 +78,7 @@ class Tinder{
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
     $result = curl_exec($ch);
-    if (curl_errno($ch)) {
-        echo 'Error:' . curl_error($ch);
-    }
+
     curl_close($ch);
     return json_decode($result,true);
   }
