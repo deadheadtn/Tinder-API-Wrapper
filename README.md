@@ -1,4 +1,4 @@
-# Tinder-API-Wrapper
+# Tinder API Wrapper
 
 
 The Most recent PHP Tinder API Wrapper on Github.
